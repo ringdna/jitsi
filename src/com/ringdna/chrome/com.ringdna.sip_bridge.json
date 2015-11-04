@@ -1,0 +1,9 @@
+{
+  "name": "com.ringdna.sip_bridge",
+  "description": "RingDNA SIP Bridge",
+  "path": "/Users/jason/Desktop/ringdna_sip_bridge.app",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://ejfjelodlkfjdmfgkmijadmpcapmbibi/"
+  ]
+}

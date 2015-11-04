@@ -25,6 +25,7 @@ import java.util.List;
 
 import javax.swing.*;
 
+import com.ringdna.chrome.NativeMessagingHost;
 import net.java.sip.communicator.impl.gui.*;
 import net.java.sip.communicator.impl.gui.event.*;
 import net.java.sip.communicator.impl.gui.main.call.*;
@@ -184,11 +185,14 @@ public class MainFrame
      */
     final KeyboardFocusManager keyManager;
 
+    public static NativeMessagingHost nativeMessagingHost;
+
     /**
      * Creates an instance of <tt>MainFrame</tt>.
      */
     public MainFrame()
     {
+        nativeMessagingHost = new NativeMessagingHost();
         if (!ConfigurationUtils.isWindowDecorated())
         {
             this.setUndecorated(true);

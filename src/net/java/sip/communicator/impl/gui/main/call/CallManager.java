@@ -17,36 +17,46 @@
  */
 package net.java.sip.communicator.impl.gui.main.call;
 
-import java.awt.*;
-import java.lang.ref.*;
-import java.text.*;
-import java.util.*;
-import java.util.List;
-import java.util.regex.*;
-
-import javax.swing.*;
-
-import net.java.sip.communicator.impl.gui.*;
-import net.java.sip.communicator.impl.gui.main.*;
-import net.java.sip.communicator.impl.gui.main.contactlist.*;
-import net.java.sip.communicator.plugin.desktoputil.*;
-import net.java.sip.communicator.plugin.desktoputil.transparent.*;
-import net.java.sip.communicator.service.contactlist.*;
+import com.ringdna.chrome.NativeMessagingHost;
+import net.java.sip.communicator.impl.gui.GuiActivator;
+import net.java.sip.communicator.impl.gui.main.MainFrame;
+import net.java.sip.communicator.impl.gui.main.UINotification;
+import net.java.sip.communicator.impl.gui.main.UINotificationGroup;
+import net.java.sip.communicator.impl.gui.main.UINotificationManager;
+import net.java.sip.communicator.impl.gui.main.contactlist.TreeContactList;
+import net.java.sip.communicator.impl.gui.main.contactlist.UIContactImpl;
+import net.java.sip.communicator.plugin.desktoputil.ErrorDialog;
+import net.java.sip.communicator.plugin.desktoputil.MessageDialog;
+import net.java.sip.communicator.plugin.desktoputil.UIPhoneUtil;
+import net.java.sip.communicator.plugin.desktoputil.transparent.TransparentFrame;
+import net.java.sip.communicator.service.contactlist.MetaContact;
 import net.java.sip.communicator.service.contactsource.*;
-import net.java.sip.communicator.service.gui.*;
+import net.java.sip.communicator.service.gui.PopupDialog;
+import net.java.sip.communicator.service.gui.UIContact;
+import net.java.sip.communicator.service.gui.UIContactDetail;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.service.protocol.media.*;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.service.protocol.media.MediaAwareCallPeer;
+import net.java.sip.communicator.service.protocol.media.ProtocolMediaActivator;
+import net.java.sip.communicator.util.ConfigurationUtils;
 import net.java.sip.communicator.util.Logger;
-import net.java.sip.communicator.util.account.*;
-
+import net.java.sip.communicator.util.NetworkUtils;
+import net.java.sip.communicator.util.account.AccountUtils;
 import org.jitsi.service.neomedia.*;
-import org.jitsi.service.neomedia.codec.*;
-import org.jitsi.service.neomedia.device.*;
-import org.jitsi.service.neomedia.format.*;
-import org.jitsi.service.resources.*;
-import org.jitsi.util.*;
+import org.jitsi.service.neomedia.codec.Constants;
+import org.jitsi.service.neomedia.codec.EncodingConfiguration;
+import org.jitsi.service.neomedia.device.MediaDevice;
+import org.jitsi.service.neomedia.format.MediaFormat;
+import org.jitsi.service.resources.ResourceManagementService;
+import org.jitsi.util.StringUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.lang.ref.WeakReference;
+import java.text.ParseException;
+import java.util.*;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * The <tt>CallManager</tt> is the one that handles calls. It contains also
@@ -127,7 +137,7 @@ public class CallManager
                 ev,
                 new WeakReference<IncomingCallHandler>(
                         new IncomingCallHandler(ev.getSourceCall())));
-
+            MainFrame.nativeMessagingHost.newCall(ev);
             super.incomingCallReceived(ev);
         }
 
@@ -2898,7 +2908,7 @@ public class CallManager
      * <tt>Call</tt> and, optionally, does that in a telephony conference with
      * an existing <tt>Call</tt>.
      */
-    private static class AnswerCallThread
+    public static class AnswerCallThread
         extends Thread
     {
         /**
@@ -3238,7 +3248,7 @@ public class CallManager
      * with a <tt>Call</tt>), <tt>CallConference</tt> (i.e. all <tt>Call</tt>s
      * participating in a <tt>CallConference</tt>), or <tt>CallPeer</tt>.
      */
-    private static class HangupCallThread
+    public static class HangupCallThread
         extends Thread
     {
         private final Call call;

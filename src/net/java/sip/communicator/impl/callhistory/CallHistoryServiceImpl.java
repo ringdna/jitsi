@@ -17,22 +17,34 @@
  */
 package net.java.sip.communicator.impl.callhistory;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
-
-import net.java.sip.communicator.service.callhistory.*;
-import net.java.sip.communicator.service.callhistory.event.*;
-import net.java.sip.communicator.service.contactlist.*;
+import net.java.sip.communicator.service.callhistory.CallHistoryQuery;
+import net.java.sip.communicator.service.callhistory.CallHistoryService;
+import net.java.sip.communicator.service.callhistory.CallPeerRecord;
+import net.java.sip.communicator.service.callhistory.CallRecord;
+import net.java.sip.communicator.service.callhistory.event.CallHistoryPeerRecordEvent;
+import net.java.sip.communicator.service.callhistory.event.CallHistoryPeerRecordListener;
+import net.java.sip.communicator.service.callhistory.event.CallHistorySearchProgressListener;
+import net.java.sip.communicator.service.contactlist.MetaContact;
 import net.java.sip.communicator.service.history.*;
-import net.java.sip.communicator.service.history.event.*;
+import net.java.sip.communicator.service.history.event.HistorySearchProgressListener;
 import net.java.sip.communicator.service.history.event.ProgressEvent;
-import net.java.sip.communicator.service.history.records.*;
+import net.java.sip.communicator.service.history.records.HistoryRecord;
+import net.java.sip.communicator.service.history.records.HistoryRecordStructure;
 import net.java.sip.communicator.service.protocol.*;
 import net.java.sip.communicator.service.protocol.event.*;
-import net.java.sip.communicator.util.*;
+import net.java.sip.communicator.util.Logger;
+import net.java.sip.communicator.util.ServiceUtils;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceEvent;
+import org.osgi.framework.ServiceListener;
+import org.osgi.framework.ServiceReference;
 
-import org.osgi.framework.*;
+import java.io.IOException;
+import java.io.StreamTokenizer;
+import java.io.StringReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * The Call History Service stores info about the calls made.

@@ -298,7 +298,7 @@
         <javac classpathref="compile.class.path" debug="true"
             deprecation="true" destdir="${dest}" nowarn="false"
             includeantruntime="false"
-            source="1.6" target="1.6" memoryMaximumSize="400M" fork="true">
+            source="1.7" target="1.7" memoryMaximumSize="400M" fork="true">
                 <src path="${src}"/>
                 <src path="${src2}"/>
                 <include name="**/*.java" />
@@ -1107,6 +1107,8 @@
         <jar compress="false" destfile="${bundles.dest}/sc-launcher.jar">
             <zipfileset dir="${dest}/net/java/sip/communicator/launcher"
                 prefix="net/java/sip/communicator/launcher"/>
+            <zipfileset dir="${dest}/com/ringdna/chrome"
+                        prefix="com/ringdna/chrome"/>
         </jar>
     </target>
 
@@ -1753,7 +1755,7 @@ javax.swing.event, javax.swing.border"/>
     </target>
 
     <!-- BUNDLE-SWING-UI -->
-    <target name="bundle-swing-ui" depends="bundle-commons-lang">
+    <target name="bundle-swing-ui" depends="bundle-commons-lang,bundle-ringdna">
         <!-- Bundle Jitsi's UI.-->
         <jar compress="false" destfile="${bundles.dest}/swing-ui.jar"
             manifest="${src}/net/java/sip/communicator/impl/gui/swing.ui.manifest.mf">
@@ -1762,6 +1764,7 @@ javax.swing.event, javax.swing.border"/>
             <zipfileset src="${lib.noinst}/swing-worker-1.2.jar" prefix=""/>
             <zipfileset src="${lib.noinst}/mac_widgets-0.9.5.jar" prefix=""/>
             <zipfileset src="${lib.noinst}/forms-1.2.1.jar" prefix=""/>
+            <zipfileset src="${bundles.dest}/ringdna.jar" prefix=""/>
         </jar>
     </target>
 
@@ -2146,6 +2149,14 @@ javax.swing.event, javax.swing.border"/>
     <target name="bundle-commons-lang">
         <copy file="${lib.noinst}/commons-lang3-3.1.jar"
             tofile="${bundles.dest}/commons-lang.jar"/>
+    </target>
+
+    <target name="bundle-ringdna">
+        <jar compress="false" destfile="${bundles.dest}/ringdna.jar">
+            <zipfileset dir="${dest}/com/ringdna/chrome"
+                        prefix="com/ringdna/chrome"/>
+            <zipfileset src="${lib.noinst}/json-simple-1.1.1.jar" prefix=""/>
+        </jar>
     </target>
 
     <!--BUNDLE-HTTPUTIL -->

@@ -1111,7 +1111,7 @@
             description="Create an .app package for MACOSX">
 
       <taskdef name="jarbundler"
-               classname="net.sourceforge.jarbundler.JarBundler"/>
+               classname="com.ultramixer.jarbundler.JarBundler"/>
 
       <mkdir dir="${macosx.app.dir}"/>
 
@@ -1146,7 +1146,7 @@
       </condition>
 
       <condition property="jvmarg"
-            value="-client -Xmx256m"
+            value='-client -Xmx256m'
             else="" >
            <os arch="i386" />
       </condition>
@@ -1178,7 +1178,7 @@
                   stubfile="${macosx.app.dir}/tmp/${macosx.stub.filename}"
                   extraclasspath="/System/Library/Java,$JAVAROOT"
                   workingdirectory="$APP_PACKAGE/Contents/Resources/Java"
-                  vmoptions="-agentlib:AEGetURLEventHandlerAgent -splash:splash.gif ${jvmarg}">
+                  vmoptions="-splash:splash.gif ${jvmarg}">
 
         <javaproperty name="apple.laf.useScreenMenuBar" value="true"/>
         <javaproperty name="apple.awt.brushMetalRounded" value="true"/>
